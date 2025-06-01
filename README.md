@@ -58,7 +58,9 @@ To run this project, you will need to fill up the following environment variable
 `DB_PASSWORD=your_password`\
 `DB_TRUST_SERVER_CERTIFICATE=true`
 
-Then go to config/database.php, find sqlsrv driver and uncomment // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
+Then go to config/database.php, find sqlsrv driver and uncomment
+
+`// 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),`
 
 ## Author
 
