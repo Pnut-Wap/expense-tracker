@@ -15,6 +15,34 @@
 
         <a href="#" class="block py-2.5 px-4 hover:bg-gray-700">
             <span class="flex items-center space-x-2">
+                <x-heroicon-s-banknotes class="w-5 h-5 text-white" />
+                <span>Budget</span>
+            </span>
+        </a>
+
+        <a href="#" class="block py-2.5 px-4 hover:bg-gray-700">
+            <span class="flex items-center space-x-2">
+                <x-heroicon-s-currency-dollar class="w-5 h-5 text-white" />
+                <span>Expenses</span>
+            </span>
+        </a>
+
+        <a href="#" class="block py-2.5 px-4 hover:bg-gray-700">
+            <span class="flex items-center space-x-2">
+                <x-heroicon-s-tag class="w-5 h-5 text-white" />
+                <span>Category</span>
+            </span>
+        </a>
+
+        <a href="#" class="block py-2.5 px-4 hover:bg-gray-700">
+            <span class="flex items-center space-x-2">
+                <x-heroicon-s-credit-card class="w-5 h-5 text-white" />
+                <span>Payment Method</span>
+            </span>
+        </a>
+
+        <a href="#" class="block py-2.5 px-4 hover:bg-gray-700">
+            <span class="flex items-center space-x-2">
                 <x-heroicon-s-user-group class="w-5 h-5 text-white" />
                 <span>Users</span>
             </span>
