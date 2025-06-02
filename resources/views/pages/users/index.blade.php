@@ -1,7 +1,7 @@
 <x-layout>
     <x-card>
         <div class="flex items-center justify-between mb-4">
-            <a href="{{ route('user.create') }}" class="p-3 bg-blue-600 text-white rounded hover:bg-blue-700">
+            <a href="{{ route('users.create') }}" class="p-3 bg-blue-600 text-white rounded hover:bg-blue-700">
                 <x-heroicon-s-document-plus class="w-5 h-5 text-white" />
             </a>
         </div>
@@ -22,15 +22,11 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        $('#table').DataTable({
+        const table = $('#table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('user.index') }}",
+            ajax: "{{ route('users.index') }}",
             order: [],
-            columnDefs: [{
-                orderable: false,
-                width: 100
-            }],
             columns: [{
                     data: 'name',
                     name: 'name',
@@ -49,6 +45,62 @@
                     searchable: false
                 }
             ]
+        });
+
+        $(document).on('click', '.delete-btn', function(e) {
+            e.preventDefault();
+            const url = $(this).data('url');
+
+            const noty = new Noty({
+                text: 'Are you sure you want to delete this user?',
+                type: 'warning',
+                layout: 'topRight',
+                theme: 'metroui',
+                buttons: [
+                    Noty.button('Yes', 'btn btn-primary cursor-pointer ml-2',
+                        async function() {
+                            try {
+                                const response = await fetch(url, {
+                                    method: 'DELETE',
+                                    headers: {
+                                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                        'Accept': 'application/json'
+                                    }
+                                });
+
+                                const data = await response.json();
+
+                                if (response.ok) {
+                                    new Noty({
+                                        text: data.message,
+                                        type: 'success',
+                                        layout: 'topRight',
+                                        theme: 'metroui',
+                                        timeout: 3000
+                                    }).show();
+                                    table.ajax.reload();
+                                } else {
+                                    throw new Error(data.message ||
+                                        'An error occurred');
+                                }
+                            } catch (error) {
+                                new Noty({
+                                    text: error.message,
+                                    type: 'error',
+                                    layout: 'topRight',
+                                    theme: 'metroui',
+                                    timeout: 3000
+                                }).show();
+                            }
+
+                            noty.close();
+                        }),
+
+                    Noty.button('No', 'btn btn-secondary ml-2 cursor-pointer', function() {
+                        noty.close();
+                    })
+                ]
+            }).show();
         });
     });
 </script>
