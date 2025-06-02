@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Validation\ValidationException;
 
-class UserController extends Controller
+class CategoryController extends Controller
 {
     public function index(Request $request)
     {
@@ -50,31 +49,6 @@ class UserController extends Controller
                 ->make(true);
         }
 
-        return view('pages.users.index');
-    }
-
-    public function create()
-    {
-        return view('pages.users.create');
-    }
-
-    public function store(Request $request)
-    {
-        try {
-            $validatedData = $request->validate([
-                'first_name' => 'required|string|max:255',
-                'last_name' => 'required|string|max:255',
-                'email' => 'required|email|unique:users,email',
-                'password' => 'required|string|min:8',
-            ]);
-
-            User::create($validatedData);
-
-            return redirect()->back()->with('success', 'User created successfully.');
-        } catch (ValidationException $e) {
-            return redirect()->back()->withErrors($e->errors())->withInput();
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'An unexpected error occurred. Please try again.');
-        }
+        return view('pages.categories.index');
     }
 }

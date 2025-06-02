@@ -1,11 +1,10 @@
 @props([
-    'title' => 'Dashboard',
     'bg' => 'bg-gray-800',
     'user' => 'Administrator',
 ])
 
 <header class="{{ $bg }} text-white p-4 flex justify-between items-center">
-    <h1 class="text-xl font-semibold">{{ $title }}</h1>
+    <h1 class="text-xl font-semibold"></h1>
 
     <div class="space-x-4">
         <span>{{ $user }}</span>

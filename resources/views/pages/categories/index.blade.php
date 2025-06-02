@@ -1,11 +1,5 @@
 <x-layout>
     <x-card>
-        <div class="flex items-center justify-between mb-4">
-            <a href="{{ route('user.create') }}" class="p-3 bg-blue-600 text-white rounded hover:bg-blue-700">
-                <x-heroicon-s-document-plus class="w-5 h-5 text-white" />
-            </a>
-        </div>
-
         <div class="overflow-x-auto">
             <table id="table" class="min-w-full divide-y divide-gray-200 text-sm text-left display">
                 <thead class="bg-gray-50">
@@ -25,7 +19,7 @@
         $('#table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('user.index') }}",
+            ajax: "{{ route('category.index') }}",
             order: [],
             columnDefs: [{
                 orderable: false,

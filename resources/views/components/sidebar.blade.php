@@ -27,10 +27,11 @@
             </span>
         </a>
 
-        <a href="#" class="block py-2.5 px-4 hover:bg-gray-700">
+        <a href="{{ route('category.index') }}"
+            class="block py-2.5 px-4 hover:bg-gray-700 {{ Route::is('category.*') ? 'bg-gray-700' : '' }}">
             <span class="flex items-center space-x-2">
                 <x-heroicon-s-tag class="w-5 h-5 text-white" />
-                <span>Category</span>
+                <span>Categories</span>
             </span>
         </a>
 
@@ -41,7 +42,8 @@
             </span>
         </a>
 
-        <a href="#" class="block py-2.5 px-4 hover:bg-gray-700">
+        <a href="{{ route('user.index') }}"
+            class="block py-2.5 px-4 hover:bg-gray-700 {{ Route::is('user.*') ? 'bg-gray-700' : '' }}">
             <span class="flex items-center space-x-2">
                 <x-heroicon-s-user-group class="w-5 h-5 text-white" />
                 <span>Users</span>
