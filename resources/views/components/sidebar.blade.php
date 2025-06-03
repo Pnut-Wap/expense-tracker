@@ -3,7 +3,7 @@
     'bg' => 'bg-gray-800',
 ])
 
-<aside class="w-64 {{ $bg }} text-white hidden md:block">
+<aside class="w-64 h-auto {{ $bg }} text-white hidden md:block">
     <div class="p-6 text-2xl font-semibold">{{ $title }}</div>
     <nav class="mt-6">
         <a href="#" class="block py-2.5 px-4 hover:bg-gray-700">

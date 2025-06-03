@@ -2,25 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Validation\ValidationException;
 
 class CategoryController extends Controller
 {
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $users = User::query();
+            $users = Category::query();
 
             return DataTables::of($users)
-                ->addColumn('name', function ($row) {
-                    $name = $row->first_name . ' ' . $row->last_name;
-
-                    if (!$name) return '';
-
-                    return trim("{$name}");
-                })
                 ->addColumn('action', function ($row) {
                     $editUrl   = '';
                     $deleteUrl = '';
@@ -50,5 +44,46 @@ class CategoryController extends Controller
         }
 
         return view('pages.categories.index');
+    }
+
+    public function create()
+    {
+        // return view('pages.categories.create');
+    }
+
+    public function store(Request $request)
+    {
+        try {
+            $validatedData = $request->validate([
+                'name' => 'required|string|max:255',
+            ]);
+
+            $validatedData['user_id'] = 1;
+
+            Category::create($validatedData);
+
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'Category created successfully.']);
+            }
+
+            return redirect()->back()->with('success', 'Category created successfully.');
+        } catch (ValidationException $e) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'message' => 'Validation failed.',
+                    'errors' => $e->errors(),
+                ], 422);
+            }
+
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        } catch (\Exception $e) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'message' => 'An unexpected error occurred. Please try again.'
+                ], 500);
+            }
+
+            return redirect()->back()->with('error', 'An unexpected error occurred. Please try again.');
+        }
     }
 }

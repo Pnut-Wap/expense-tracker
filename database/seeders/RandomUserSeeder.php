@@ -13,7 +13,7 @@ class RandomUserSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = User::factory()->count(49)->create();
+        $users = User::factory()->count(9)->create();
 
         echo "Users created successfully!\n";
     }

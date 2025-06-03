@@ -13,11 +13,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // DB::table('users')->truncate();
-
         $this->call([
             TestUserSeeder::class,
             RandomUserSeeder::class,
+            CategorySeeder::class,
         ]);
     }
 }

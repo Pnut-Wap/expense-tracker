@@ -1,7 +1,7 @@
 <x-layout>
     <x-card>
         <div class="flex items-center justify-between mb-4">
-            <a href="{{ route('users.create') }}" class="p-3 bg-blue-600 text-white rounded hover:bg-blue-700">
+            <a href="{{ route('users.create') }}" class="p-3 bg-black text-white rounded hover:bg-gray-700">
                 <x-heroicon-s-document-plus class="w-5 h-5 text-white" />
             </a>
         </div>
@@ -21,7 +21,7 @@
 </x-layout>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    $(document).ready(function() {
         const table = $('#table').DataTable({
             processing: true,
             serverSide: true,
@@ -57,45 +57,43 @@
                 layout: 'topRight',
                 theme: 'metroui',
                 buttons: [
-                    Noty.button('Yes', 'btn btn-primary cursor-pointer ml-2',
-                        async function() {
-                            try {
-                                const response = await fetch(url, {
-                                    method: 'DELETE',
-                                    headers: {
-                                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                                        'Accept': 'application/json'
-                                    }
-                                });
-
-                                const data = await response.json();
-
-                                if (response.ok) {
-                                    new Noty({
-                                        text: data.message,
-                                        type: 'success',
-                                        layout: 'topRight',
-                                        theme: 'metroui',
-                                        timeout: 3000
-                                    }).show();
-                                    table.ajax.reload();
-                                } else {
-                                    throw new Error(data.message ||
-                                        'An error occurred');
-                                }
-                            } catch (error) {
+                    Noty.button('Yes', 'btn btn-primary cursor-pointer ml-2', function() {
+                        $.ajax({
+                            url: url,
+                            type: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                'Accept': 'application/json'
+                            },
+                            success: function(data) {
                                 new Noty({
-                                    text: error.message,
+                                    text: data.message,
+                                    type: 'success',
+                                    layout: 'topRight',
+                                    theme: 'metroui',
+                                    timeout: 3000
+                                }).show();
+                                table.ajax.reload();
+                            },
+                            error: function(xhr) {
+                                let message = 'An error occurred';
+                                if (xhr.responseJSON && xhr.responseJSON
+                                    .message) {
+                                    message = xhr.responseJSON.message;
+                                }
+                                new Noty({
+                                    text: message,
                                     type: 'error',
                                     layout: 'topRight',
                                     theme: 'metroui',
                                     timeout: 3000
                                 }).show();
+                            },
+                            complete: function() {
+                                noty.close();
                             }
-
-                            noty.close();
-                        }),
-
+                        });
+                    }),
                     Noty.button('No', 'btn btn-secondary ml-2 cursor-pointer', function() {
                         noty.close();
                     })
